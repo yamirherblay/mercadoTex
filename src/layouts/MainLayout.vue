@@ -3,79 +3,91 @@
     <q-header elevated>
       <q-toolbar>
         <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
-
-        <q-toolbar-title> Quasar App </q-toolbar-title>
-
-        <div>Quasar v{{ $q.version }}</div>
+        <q-toolbar-title class="row items-center">
+          <q-img src="/logo.png" alt="MercadoTexas" style="width:28px;height:28px" class="q-mr-sm" />
+          <span>MercadoTexas</span>
+        </q-toolbar-title>
+        <q-btn flat round dense icon="shopping_cart" @click="showCart = true">
+          <q-badge color="red" text-color="white" floating v-if="cart.count">{{ cart.count }}</q-badge>
+        </q-btn>
       </q-toolbar>
     </q-header>
 
     <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
       <q-list>
-        <q-item-label header> Essential Links </q-item-label>
+        <q-item clickable v-ripple to="/">
+          <q-item-section avatar><q-icon name="home"/></q-item-section>
+          <q-item-section>Inicio</q-item-section>
+        </q-item>
+        <q-item clickable v-ripple to="/categorias">
+          <q-item-section avatar><q-icon name="category"/></q-item-section>
+          <q-item-section>Categorías</q-item-section>
+        </q-item>
+        <q-item clickable v-ripple to="/about">
+          <q-item-section avatar><q-icon name="info"/></q-item-section>
+          <q-item-section>Quiénes somos</q-item-section>
+        </q-item>
+        <q-item clickable v-ripple to="/contact">
+          <q-item-section avatar><q-icon name="contact_support"/></q-item-section>
+          <q-item-section>Contacto</q-item-section>
+        </q-item>
 
-        <EssentialLink v-for="link in linksList" :key="link.title" v-bind="link" />
+        <q-separator class="q-my-sm"/>
+        <filter-panel />
+
+        <q-separator class="q-my-sm"/>
+        <q-item v-if="!auth.isAuthenticated" clickable v-ripple to="/auth/login">
+          <q-item-section avatar><q-icon name="login"/></q-item-section>
+          <q-item-section>Iniciar sesión</q-item-section>
+        </q-item>
+        <q-item v-if="!auth.isAuthenticated" clickable v-ripple to="/auth/register">
+          <q-item-section avatar><q-icon name="person_add"/></q-item-section>
+          <q-item-section>Registrarse</q-item-section>
+        </q-item>
+        <q-item v-else clickable v-ripple to="/cuenta">
+          <q-item-section avatar><q-icon name="account_circle"/></q-item-section>
+          <q-item-section>Mi Cuenta</q-item-section>
+        </q-item>
+        <q-item v-if="auth.isAuthenticated" clickable v-ripple @click="logout">
+          <q-item-section avatar><q-icon name="logout"/></q-item-section>
+          <q-item-section>Salir</q-item-section>
+        </q-item>
+        <q-item v-if="auth.isAdmin" clickable v-ripple to="/admin">
+          <q-item-section avatar><q-icon name="dashboard"/></q-item-section>
+          <q-item-section>Admin</q-item-section>
+        </q-item>
       </q-list>
     </q-drawer>
 
     <q-page-container>
       <router-view />
     </q-page-container>
+
+    <q-footer class="text-white bg-primary">
+      <div class="row q-pa-md items-center justify-between">
+        <div>© {{ new Date().getFullYear() }} MercadoTexas</div>
+        <div class="row items-center">
+          <q-icon name="call" class="q-mr-xs"/> <span>+53 5 000 0000</span>
+        </div>
+      </div>
+    </q-footer>
+
+    <cart-modal v-model="showCart" />
   </q-layout>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import EssentialLink, { type EssentialLinkProps } from 'components/EssentialLink.vue';
-
-const linksList: EssentialLinkProps[] = [
-  {
-    title: 'Docs',
-    caption: 'quasar.dev',
-    icon: 'school',
-    link: 'https://quasar.dev',
-  },
-  {
-    title: 'Github',
-    caption: 'github.com/quasarframework',
-    icon: 'code',
-    link: 'https://github.com/quasarframework',
-  },
-  {
-    title: 'Discord Chat Channel',
-    caption: 'chat.quasar.dev',
-    icon: 'chat',
-    link: 'https://chat.quasar.dev',
-  },
-  {
-    title: 'Forum',
-    caption: 'forum.quasar.dev',
-    icon: 'record_voice_over',
-    link: 'https://forum.quasar.dev',
-  },
-  {
-    title: 'Twitter',
-    caption: '@quasarframework',
-    icon: 'rss_feed',
-    link: 'https://twitter.quasar.dev',
-  },
-  {
-    title: 'Facebook',
-    caption: '@QuasarFramework',
-    icon: 'public',
-    link: 'https://facebook.quasar.dev',
-  },
-  {
-    title: 'Quasar Awesome',
-    caption: 'Community Quasar projects',
-    icon: 'favorite',
-    link: 'https://awesome.quasar.dev',
-  },
-];
+import { useCartStore } from 'src/stores/cart';
+import { useAuthStore } from 'src/stores/auth';
+import CartModal from 'src/components/CartModal.vue';
+import FilterPanel from 'src/components/FilterPanel.vue';
 
 const leftDrawerOpen = ref(false);
+const showCart = ref(false);
+const cart = useCartStore();
+const auth = useAuthStore();
 
-function toggleLeftDrawer() {
-  leftDrawerOpen.value = !leftDrawerOpen.value;
-}
+function toggleLeftDrawer() { leftDrawerOpen.value = !leftDrawerOpen.value; }
+function logout() { auth.logout(); }
 </script>

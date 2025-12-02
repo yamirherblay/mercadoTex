@@ -1,0 +1,5 @@
+[
+  { "id": "food", "name": "Alimentos", "image": "/images/placeholder.svg" },
+  { "id": "hygiene", "name": "Higiene", "image": "/images/placeholder.svg" },
+  { "id": "home", "name": "Hogar", "image": "/images/placeholder.svg" }
+]

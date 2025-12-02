@@ -1,0 +1,6 @@
+[
+  { "id": "p-arroz-1", "name": "Arroz 1kg", "price": 180.0, "categoryId": "food", "shortDescription": "Grano largo 1kg", "image": "/images/placeholder.svg" },
+  { "id": "p-aceite-1", "name": "Aceite 1L", "price": 450.0, "categoryId": "food", "shortDescription": "Aceite vegetal 1L", "image": "/images/placeholder.svg" },
+  { "id": "p-jabon-1", "name": "Jabón de tocador", "price": 120.0, "categoryId": "hygiene", "shortDescription": "Pieza 125g", "image": "/images/placeholder.svg" },
+  { "id": "p-detergente-1", "name": "Detergente 1kg", "price": 520.0, "categoryId": "home", "shortDescription": "Polvo para lavar", "image": "/images/placeholder.svg" }
+]
