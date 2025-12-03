@@ -1,7 +1,7 @@
 <template>
   <q-page class="q-pa-md tienda-page">
     <!-- Categorías: barra horizontal con scroll fino y atractivo -->
-    <section class="q-mb-md">
+    <section class="q-mb-md sticky-cats">
       <q-scroll-area class="cat-scroll rounded-borders" :horizontal="true" :thumb-style="thumbStyle" :bar-style="barStyle">
         <div class="row no-wrap q-gutter-sm items-center">
           <q-chip
@@ -83,23 +83,24 @@ type Product = {
 
 const categories = ref<Category[]>([
   { key: 'all', label: 'Todas' },
-  { key: 'ropa', label: 'Ropa', image: 'public/images/tiendaRopa.jpg' },
-  { key: 'hogar', label: 'Hogar', image: 'public/images/productosHogar.png' },
-  { key: 'ferreteria', label: 'Ferretería', image: 'public/images/ferreteria.png' },
-  { key: 'carnicos', label: 'Cárnicos', image: 'public/images/carnicos.webp' },
-  { key: 'confituras', label: 'Confituras', image: 'public/images/confituras.webp' },
-  { key: 'belleza', label: 'Belleza', image: 'public/images/cosmeticos.png' },
+  { key: 'ropa', label: 'Ropa', image: '/images/tiendaRopa.jpg' },
+  { key: 'hogar', label: 'Hogar', image: '/images/productosHogar.png' },
+  { key: 'ferreteria', label: 'Ferretería', image: '/images/ferreteria.png' },
+  { key: 'carnicos', label: 'Cárnicos', image: '/images/carnicos.webp' },
+  { key: 'confituras', label: 'Confituras', image: '/images/confituras.webp' },
+  { key: 'belleza', label: 'Belleza', image: '/images/cosmeticos.png' },
+  { key: 'combos', label:'Combos',image:'/images/cestaProductoBasicos.png'}
 ])
 
 const products = ref<Product[]>([
-  { id: 1, name: 'Camiseta básica', price: 12.99, image: 'public/images/tiendaRopa.jpg', category: 'ropa' },
-  { id: 2, name: 'Jeans clásicos', price: 29.9, image: 'public/images/tiendaRopa.jpg', category: 'ropa' },
-  { id: 3, name: 'Juego de sábanas', price: 24.5, image: 'public/images/productosHogar.png', category: 'hogar' },
-  { id: 4, name: 'Destornillador multipunta', price: 8.75, image: 'public/images/ferreteria.png', category: 'ferreteria' },
-  { id: 5, name: 'Pechuga de pollo (1kg)', price: 6.9, image: 'public/images/carnicos.webp', category: 'carnicos' },
-  { id: 6, name: 'Mermelada de fresa', price: 3.8, image: 'public/images/confituras.webp', category: 'confituras' },
-  { id: 7, name: 'Kit de cosméticos', price: 18.0, image: 'public/images/cosmeticos.png', category: 'belleza' },
-  { id: 8, name: 'Cesta de básicos', price: 14.99, image: 'public/images/cestaProductoBasicos.png', category: 'hogar' },
+  { id: 1, name: 'Camiseta básica', price: 12.99, image: '/images/tiendaRopa.jpg', category: 'ropa' },
+  { id: 2, name: 'Jeans clásicos', price: 29.9, image: '/images/tiendaRopa.jpg', category: 'ropa' },
+  { id: 3, name: 'Juego de sábanas', price: 24.5, image: '/images/productosHogar.png', category: 'hogar' },
+  { id: 4, name: 'Destornillador multipunta', price: 8.75, image: '/images/ferreteria.png', category: 'ferreteria' },
+  { id: 5, name: 'Pechuga de pollo (1kg)', price: 6.9, image: '/images/carnicos.webp', category: 'carnicos' },
+  { id: 6, name: 'Mermelada de fresa', price: 3.8, image: '/images/confituras.webp', category: 'confituras' },
+  { id: 7, name: 'Kit de cosméticos', price: 18.0, image: '/images/cosmeticos.png', category: 'belleza' },
+  { id: 8, name: 'Cesta de básicos', price: 14.99, image: '/images/cestaProductoBasicos.png', category: 'hogar' },
 ])
 
 const selectedCategory = ref<string>('all')
@@ -166,6 +167,7 @@ const barStyle = {
   padding: 6px 4px;
   background: #f5f5f5;
   border: 1px solid rgba(0,0,0,0.05);
+  background: linear-gradient(to bottom, #ffffff 0%, #f5f5f5 100%);
 }
 
 .product-card {
@@ -209,4 +211,10 @@ const barStyle = {
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+.sticky-cats {
+  position: sticky;
+  top: 56px; /* altura del header de Quasar (aprox) */
+  z-index: 10; /* sobre el contenido de la página */
+}
+
 </style>

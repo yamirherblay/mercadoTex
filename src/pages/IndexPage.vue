@@ -52,12 +52,13 @@ import { ref } from 'vue';
 type Category = { key: string; label: string; image: string };
 
 const categories = ref<Category[]>([
-  { key: 'ropa', label: 'Ropa', image: 'src/assets/images/tiendaRopa.jpg' },
-  { key: 'hogar', label: 'Hogar', image: 'src/assets/images/productosHogar.png' },
-  { key: 'ferreteria', label: 'Electrónica', image: 'src/assets/images/ferreteria.png' },
-  { key: 'carnicos', label: 'Cárnicos', image: 'src/assets/images/carnicos.webp' },
-  { key: 'confituras', label: 'Confituras', image: 'src/assets/images/confituras.webp' },
-  { key: 'belleza', label: 'Belleza', image: 'src/assets/images/cosmeticos.png' },
+  { key: 'ropa', label: 'Ropa', image: '/images/tiendaRopa.jpg' },
+  { key: 'hogar', label: 'Hogar', image: '/images/productosHogar.png' },
+  { key: 'ferreteria', label: 'Electrónica', image: '/images/ferreteria.png' },
+  { key: 'carnicos', label: 'Cárnicos', image: '/images/carnicos.webp' },
+  { key: 'confituras', label: 'Confituras', image: '/images/confituras.webp' },
+  { key: 'belleza', label: 'Belleza', image: '/images/cosmeticos.png' },
+  { key: 'combos', label:'Combos',image:'/images/cestaProductoBasicos.png'}
 ]);
 
 </script>
