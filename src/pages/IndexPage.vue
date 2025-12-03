@@ -78,7 +78,7 @@ const categories = ref<Category[]>([
   inset: 0;
   background:
     linear-gradient(to bottom right, rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.25)),
-    url('src/assets/images/fondo.jpg') center/cover no-repeat fixed;
+    url('app/public/images/fondo.jpg') center/cover no-repeat fixed;
   filter: blur(8px);
   z-index: 0;
 }
