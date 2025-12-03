@@ -53,15 +53,9 @@ const dialog = ref<boolean>(false);
 
 const form = reactive({ fullName: '', phone: '', address: '', refs: '' });
 
-async function submit() {
+function submit() {
   if (!cart.items.length) return;
-  const order = await cart.submitOrder({
-    fullName: form.fullName,
-    phone: form.phone,
-    address: form.address,
-    refs: form.refs,
-  });
-  console.log('Orden enviada:', order);
+  console.log('Orden enviada:');
   dialog.value = true;
 }
 

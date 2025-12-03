@@ -35,7 +35,7 @@
                 <q-icon name="mail" class="q-mr-xs" /> soporte@mercadotexas.cu
               </div>
               <div class="row q-gutter-sm">
-                
+
                 <q-btn type="reset" flat color="primary" label="Limpiar" :disable="loading" />
                 <q-btn type="submit" color="primary" unelevated :loading="loading" label="Enviar" icon="send" />
               </div>
@@ -81,11 +81,10 @@ async function onSubmit() {
   if (!valid) return;
   try {
     loading.value = true;
-    // Simulate sending
-    await new Promise(r => setTimeout(r, 800));
+
     $q.notify({ type: 'positive', message: '¡Gracias! Tu mensaje ha sido enviado.' });
     onReset();
-  } catch (e) {
+  } catch {
     $q.notify({ type: 'negative', message: 'No se pudo enviar. Intenta nuevamente.' });
   } finally {
     loading.value = false;

@@ -79,7 +79,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useCartStore } from 'src/stores/cart';
-import { useAuthStore } from 'src/stores/auth';
 import CartModal from 'src/components/CartModal.vue';
 import FilterPanel from 'src/components/FilterPanel.vue';
 

@@ -42,7 +42,7 @@
 
             <q-card-actions align="between" class="q-pa-sm">
               <div class="row items-center">
-                <q-btn size="sm" round flat icon="remove" @click="decQty(p.id)" :disable="qty[p.id] <= 1" />
+                <q-btn size="sm" round flat icon="remove" @click="decQty(p?.id)" :disable="qty[p.id] <= 1" />
                 <q-input
                   v-model.number="qty[p.id]"
                   type="number"
