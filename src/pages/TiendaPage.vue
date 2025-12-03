@@ -26,36 +26,36 @@
     <section>
       <div class="row q-col-gutter-md">
         <div
-          v-for="p in filteredProducts"
-          :key="p.id"
+          v-for="product in filteredProducts"
+          :key="product.id"
           class="col-6 col-sm-4 col-md-3 col-lg-2"
         >
           <q-card flat bordered class="product-card column full-height">
-            <q-img :src="p.image" :ratio="1" spinner-color="primary" class="product-image" />
+            <q-img :src="product.image" :ratio="1" spinner-color="primary" class="product-image" />
 
             <q-card-section class="q-pb-none">
-              <div class="text-subtitle2 ellipsis-2-lines" :title="p.name">{{ p.name }}</div>
-              <div class="text-primary text-weight-bold">{{ formatPrice(p.price) }}</div>
+              <div class="text-subtitle2 ellipsis-2-lines" :title="product.name">{{ product.name }}</div>
+              <div class="text-primary text-weight-bold">{{ formatPrice(product.price) }}</div>
             </q-card-section>
 
             <q-separator />
 
             <q-card-actions align="between" class="q-pa-sm">
               <div class="row items-center">
-                <q-btn size="sm" round flat icon="remove" @click="decQty(p?.id)" :disable="qty[p.id] <= 1" />
+                <q-btn size="sm" round flat icon="remove" @click="decQty(product?.id)" />
                 <q-input
-                  v-model.number="qty[p.id]"
+                  v-model.number="qty[product.id]"
                   type="number"
                   dense
                   outlined
                   class="qty-input q-mx-xs"
                   :min="1"
                   :max="99"
-                  @update:model-value="onQtyInput(p.id)"
+                  @update:model-value="onQtyInput(product?.id)"
                 />
-                <q-btn size="sm" round flat icon="add" @click="incQty(p.id)" />
+                <q-btn size="sm" round flat icon="add" @click="incQty(product.id)" />
               </div>
-              <q-btn color="primary" unelevated size="sm" icon="shopping_cart" label="Añadir" @click="addToCart(p)" />
+              <q-btn color="primary" class="justify-end" unelevated size="sm" icon="shopping_cart" label="Añadir" @click="addToCart(product)" />
             </q-card-actions>
           </q-card>
         </div>
@@ -74,7 +74,7 @@ import { computed, reactive, ref } from 'vue'
 type Category = { key: string; label: string; image?: string }
 
 type Product = {
-  id: string
+  id: number
   name: string
   price: number
   image: string
@@ -92,14 +92,14 @@ const categories = ref<Category[]>([
 ])
 
 const products = ref<Product[]>([
-  { id: 'p1', name: 'Camiseta básica', price: 12.99, image: 'src/assets/images/tiendaRopa.jpg', category: 'ropa' },
-  { id: 'p2', name: 'Jeans clásicos', price: 29.9, image: 'src/assets/images/tiendaRopa.jpg', category: 'ropa' },
-  { id: 'p3', name: 'Juego de sábanas', price: 24.5, image: 'src/assets/images/productosHogar.png', category: 'hogar' },
-  { id: 'p4', name: 'Destornillador multipunta', price: 8.75, image: 'src/assets/images/ferreteria.png', category: 'ferreteria' },
-  { id: 'p5', name: 'Pechuga de pollo (1kg)', price: 6.9, image: 'src/assets/images/carnicos.webp', category: 'carnicos' },
-  { id: 'p6', name: 'Mermelada de fresa', price: 3.8, image: 'src/assets/images/confituras.webp', category: 'confituras' },
-  { id: 'p7', name: 'Kit de cosméticos', price: 18.0, image: 'src/assets/images/cosmeticos.png', category: 'belleza' },
-  { id: 'p8', name: 'Cesta de básicos', price: 14.99, image: 'src/assets/images/cestaProductoBasicos.png', category: 'hogar' },
+  { id: 1, name: 'Camiseta básica', price: 12.99, image: 'src/assets/images/tiendaRopa.jpg', category: 'ropa' },
+  { id: 2, name: 'Jeans clásicos', price: 29.9, image: 'src/assets/images/tiendaRopa.jpg', category: 'ropa' },
+  { id: 3, name: 'Juego de sábanas', price: 24.5, image: 'src/assets/images/productosHogar.png', category: 'hogar' },
+  { id: 4, name: 'Destornillador multipunta', price: 8.75, image: 'src/assets/images/ferreteria.png', category: 'ferreteria' },
+  { id: 5, name: 'Pechuga de pollo (1kg)', price: 6.9, image: 'src/assets/images/carnicos.webp', category: 'carnicos' },
+  { id: 6, name: 'Mermelada de fresa', price: 3.8, image: 'src/assets/images/confituras.webp', category: 'confituras' },
+  { id: 7, name: 'Kit de cosméticos', price: 18.0, image: 'src/assets/images/cosmeticos.png', category: 'belleza' },
+  { id: 8, name: 'Cesta de básicos', price: 14.99, image: 'src/assets/images/cestaProductoBasicos.png', category: 'hogar' },
 ])
 
 const selectedCategory = ref<string>('all')
@@ -120,24 +120,23 @@ function formatPrice(value: number) {
   return new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'USD' }).format(value)
 }
 
-function incQty(id: string) {
+function incQty(id: number) {
   qty[id] = Math.min((qty[id] || 1) + 1, 99)
 }
 
-function decQty(id: string) {
+function decQty(id: number) {
   qty[id] = Math.max((qty[id] || 1) - 1, 1)
 }
 
-function onQtyInput(id: string) {
+function onQtyInput(id: number) {
   if (Number.isNaN(qty[id] as number)) qty[id] = 1
-  qty[id] = Math.min(Math.max(qty[id], 1), 99)
+  qty[id] = Math.min(1)
 }
 
 function addToCart(product: Product) {
   // Placeholder: aquí se integraría con el carrito real si existe
   // Por ahora, mostramos una simple notificación del navegador
-  // eslint-disable-next-line no-alert
-  alert(`Añadido: ${product.name} x${qty[product.id]}`)
+  console.log('entramos a addToCart', product, qty[product.id])
 }
 
 const thumbStyle = {

@@ -36,26 +36,6 @@
         <filter-panel />
 
         <q-separator class="q-my-sm"/>
-        <q-item v-if="!auth.isAuthenticated" clickable v-ripple to="/auth/login">
-          <q-item-section avatar><q-icon name="login"/></q-item-section>
-          <q-item-section>Iniciar sesión</q-item-section>
-        </q-item>
-        <q-item v-if="!auth.isAuthenticated" clickable v-ripple to="/auth/register">
-          <q-item-section avatar><q-icon name="person_add"/></q-item-section>
-          <q-item-section>Registrarse</q-item-section>
-        </q-item>
-        <q-item v-else clickable v-ripple to="/cuenta">
-          <q-item-section avatar><q-icon name="account_circle"/></q-item-section>
-          <q-item-section>Mi Cuenta</q-item-section>
-        </q-item>
-        <q-item v-if="auth.isAuthenticated" clickable v-ripple @click="logout">
-          <q-item-section avatar><q-icon name="logout"/></q-item-section>
-          <q-item-section>Salir</q-item-section>
-        </q-item>
-        <q-item v-if="auth.isAdmin" clickable v-ripple to="/admin">
-          <q-item-section avatar><q-icon name="dashboard"/></q-item-section>
-          <q-item-section>Admin</q-item-section>
-        </q-item>
       </q-list>
     </q-drawer>
 
@@ -80,13 +60,10 @@
 import { ref } from 'vue';
 import { useCartStore } from 'src/stores/cart';
 import CartModal from 'src/components/CartModal.vue';
-import FilterPanel from 'src/components/FilterPanel.vue';
 
 const leftDrawerOpen = ref(false);
 const showCart = ref(false);
 const cart = useCartStore();
-const auth = useAuthStore();
 
 function toggleLeftDrawer() { leftDrawerOpen.value = !leftDrawerOpen.value; }
-function logout() { auth.logout(); }
 </script>
