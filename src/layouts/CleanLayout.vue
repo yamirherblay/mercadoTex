@@ -3,12 +3,13 @@
     <q-header class="bg-primary" elevated color="white">
       <q-toolbar>
         <q-toolbar-title class="row items-center q-mr-md">
-          <q-img src="/logo.png" alt="MercadoTexas" style="width:28px;height:28px" class="q-mr-sm" />
-          <span>MercadoTexas</span>
+          <q-btn flat class="lt-md" @click="leftDrawerOpen = !leftDrawerOpen" round dense icon="menu" />
+
+          <span>Mercado Variado Texas</span>
         </q-toolbar-title>
         <!-- Desktop navigation (hidden on small screens) -->
         <div class="row items-center gt-sm">
-          <q-btn flat dense label="Home" to="/" icon="home" class="gt-xs" />
+          <q-btn flat dense label="" to="/" icon="home" class="gt-xs" />
           <q-btn flat dense label="Tienda" to="/tienda" icon="store" class="gt-xs" />
           <q-btn flat dense label="Quiénes somos" to="/about" icon="info" class="gt-xs" />
           <q-btn flat dense label="Contacto" to="/contact" icon="contact_support" class="gt-xs"  />
@@ -36,8 +37,10 @@
           <q-item-section>Contacto</q-item-section>
         </q-item>
         <q-separator />
-        <q-item class="text-center">
-          <q-item-section>MERCADO VARIADO TEXAS</q-item-section>
+        <q-item class="text-center justify-center">
+          <q-item-section >
+            <q-img src="/images/logo.png" alt="MercadoTexas" />
+          </q-item-section>
         </q-item>
       </q-list>
     </q-drawer>
@@ -51,7 +54,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
-// Drawer state (edge-swipe control on mobile)
 const leftDrawerOpen = ref(false);
 </script>
 <style lang="scss" scoped>

@@ -6,7 +6,7 @@
       <div class="column items-center text-center">
         <div class="text-h3 text-weight-bold q-mb-sm">Descubre lo mejor en nuestra tienda</div>
         <div class="text-subtitle1 q-mb-lg">Ofertas irresistibles y productos seleccionados para ti</div>
-        <q-btn color="primary" size="lg" label="Ir a la Tienda" to="/tienda" unelevated />
+        <q-btn color="primary" size="lg" label="Ir a la Tienda" to="/tienda" unelevated bordered rounded class="q-mt-xl" />
       </div>
     </section>
 
@@ -19,6 +19,8 @@
               v-for="cat in categories"
               :key="cat.key"
               flat
+              clickable
+              :to="{ path: '/tienda', query: { cat: cat.key } }"
               class="category-card cursor-pointer">
               <q-card-section class="column items-center text-center ">
                 <q-img
@@ -35,7 +37,7 @@
     </section>
 
     <!-- Footer -->
-    <footer class="bg-primary text-white q-pa-md">
+    <footer class="bg-primary-ligth text-white q-pa-md">
       <div class="row items-center justify-between">
         <div>© {{ new Date().getFullYear() }} MercadoTexas</div>
         <div class="row items-center">
@@ -79,8 +81,8 @@ const categories = ref<Category[]>([
   inset: 0;
   background:
     linear-gradient(to bottom right, rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.25)),
-    url('app/public/images/fondo.jpg') center/cover no-repeat fixed;
-  filter: blur(8px);
+    url('/images/fondo.jpg') center/cover no-repeat fixed;
+  filter: blur(2px);
   z-index: 0;
 }
 

@@ -69,7 +69,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed, reactive, ref } from 'vue'
+import { computed, reactive, ref, watch, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
 
 type Category = { key: string; label: string; image?: string }
 
@@ -103,8 +104,19 @@ const products = ref<Product[]>([
   { id: 8, name: 'Cesta de básicos', price: 14.99, image: '/images/cestaProductoBasicos.png', category: 'hogar' },
 ])
 
+const route = useRoute()
+
 const selectedCategory = ref<string>('all')
 
+const categoryKeys = computed(() => categories.value.map(c => c.key))
+
+function applyRouteCategory() {
+  const q = (route.query.cat as string | undefined) || 'all'
+  selectedCategory.value = (q === 'all' || categoryKeys.value.includes(q)) ? q : 'all'
+}
+
+onMounted(applyRouteCategory)
+watch(() => route.query.cat, applyRouteCategory)
 const qty = reactive<Record<string, number>>({})
 products.value.forEach(p => (qty[p.id] = 1))
 
@@ -135,8 +147,7 @@ function onQtyInput(id: number) {
 }
 
 function addToCart(product: Product) {
-  // Placeholder: aquí se integraría con el carrito real si existe
-  // Por ahora, mostramos una simple notificación del navegador
+
   console.log('entramos a addToCart', product, qty[product.id])
 }
 

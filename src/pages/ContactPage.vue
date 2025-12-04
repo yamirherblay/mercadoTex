@@ -1,5 +1,5 @@
 <template>
-  <q-page class="q-pa-lg">
+  <q-page class="q-pa-lg contact-page">
     <div class="q-mx-auto" style="max-width: 980px">
       <div class="text-h5 q-mb-sm">Contacto</div>
       <div class="text-body1 q-mb-lg">
@@ -53,6 +53,9 @@ import { useQuasar } from 'quasar';
 
 const $q = useQuasar();
 
+// Número de WhatsApp al que se enviará el mensaje (solo dígitos, formato internacional)
+const WHATSAPP_NUMBER = '14328882324';
+
 const formRef = ref();
 const loading = ref(false);
 
@@ -76,16 +79,28 @@ function reqMin(v: string) {
 }
 
 async function onSubmit() {
-  // validate form via q-form
   const valid = await formRef.value?.validate?.();
   if (!valid) return;
   try {
     loading.value = true;
 
-    $q.notify({ type: 'positive', message: '¡Gracias! Tu mensaje ha sido enviado.' });
+    // Construir el mensaje para WhatsApp
+    const lines: string[] = [];
+    if (form.subject) lines.push(`Asunto: ${form.subject}`);
+    if (form.message) lines.push(`Mensaje: ${form.message}`);
+    const sender = [form.fullName || null, form.email || null, form.phone || null]
+      .filter(Boolean)
+      .join(' | ');
+    if (sender) lines.push(`Enviado por: ${sender}`);
+    const text = encodeURIComponent(lines.join('\n'));
+
+    // Abrir WhatsApp con el mensaje preparado
+    const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${text}`;
+    window.open(url, '_blank');
+    $q.notify({ type: 'positive', message: 'Abriendo WhatsApp para enviar tu mensaje…' });
     onReset();
   } catch {
-    $q.notify({ type: 'negative', message: 'No se pudo enviar. Intenta nuevamente.' });
+    $q.notify({ type: 'negative', message: 'No se pudo preparar el envío por WhatsApp. Intenta nuevamente.' });
   } finally {
     loading.value = false;
   }
@@ -102,4 +117,19 @@ function onReset() {
 
 <style scoped>
 /* Ensure two-column layout on >= sm is handled by Quasar grid classes */
+.contact-page{
+  max-width: 100%;
+  padding: 0 16px;
+
+}
+.contact-page::before{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background:
+    linear-gradient(to bottom right, rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.25)),
+    url('/images/fondo2.JPG') center/cover no-repeat fixed;
+  filter: blur(8px);
+  z-index: 0;
+}
 </style>
