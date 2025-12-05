@@ -102,6 +102,7 @@ const products = ref<Product[]>([
   { id: 6, name: 'Mermelada de fresa', price: 3.8, image: '/images/confituras.webp', category: 'confituras' },
   { id: 7, name: 'Kit de cosméticos', price: 18.0, image: '/images/cosmeticos.png', category: 'belleza' },
   { id: 8, name: 'Cesta de básicos', price: 14.99, image: '/images/cestaProductoBasicos.png', category: 'hogar' },
+  { id: 9, name: 'Galleta mini sabor vainila', price: 6.50, image: 'https://res.cloudinary.com/dup1hfnsh/image/upload/v1764952707/galletas_minies_Varios_sabores3_zjdayf.jpg', category: 'confituras' },
 ])
 
 const route = useRoute()
