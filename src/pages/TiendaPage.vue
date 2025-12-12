@@ -42,7 +42,7 @@
 
             <q-card-actions align="between" class="q-pa-sm">
               <div class="row items-center">
-                <q-btn size="sm" round flat icon="remove" @click="decQty(product?.id)" />
+                <q-btn size="sm" round flat icon="remove" @click="decQty(product.id)" />
                 <q-input
                   v-model.number="qty[product.id]"
                   type="number"
@@ -71,11 +71,13 @@
 <script setup lang="ts">
 import { computed, reactive, ref, watch, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
+import { useCartStore } from 'src/stores/cart'
+import type { Product as StoreProduct } from 'src/stores/types'
 
 type Category = { key: string; label: string; image?: string }
 
 type Product = {
-  id: number
+  id: string
   name: string
   price: number
   image: string
@@ -93,17 +95,7 @@ const categories = ref<Category[]>([
   { key: 'combos', label:'Combos',image:'/images/cestaProductoBasicos.png'}
 ])
 
-const products = ref<Product[]>([
-  { id: 1, name: 'Camiseta básica', price: 12.99, image: '/images/tiendaRopa.jpg', category: 'ropa' },
-  { id: 2, name: 'Jeans clásicos', price: 29.9, image: '/images/tiendaRopa.jpg', category: 'ropa' },
-  { id: 3, name: 'Juego de sábanas', price: 24.5, image: '/images/productosHogar.png', category: 'hogar' },
-  { id: 4, name: 'Destornillador multipunta', price: 8.75, image: '/images/ferreteria.png', category: 'ferreteria' },
-  { id: 5, name: 'Pechuga de pollo (1kg)', price: 6.9, image: '/images/carnicos.webp', category: 'carnicos' },
-  { id: 6, name: 'Mermelada de fresa', price: 3.8, image: '/images/confituras.webp', category: 'confituras' },
-  { id: 7, name: 'Kit de cosméticos', price: 18.0, image: '/images/cosmeticos.png', category: 'belleza' },
-  { id: 8, name: 'Cesta de básicos', price: 14.99, image: '/images/cestaProductoBasicos.png', category: 'hogar' },
-  { id: 9, name: 'Galleta mini sabor vainila', price: 6.50, image: 'https://res.cloudinary.com/dup1hfnsh/image/upload/v1764952707/galletas_minies_Varios_sabores3_zjdayf.jpg', category: 'confituras' },
-])
+const products = ref<Product[]>([])
 
 const route = useRoute()
 
@@ -116,10 +108,19 @@ function applyRouteCategory() {
   selectedCategory.value = (q === 'all' || categoryKeys.value.includes(q)) ? q : 'all'
 }
 
-onMounted(applyRouteCategory)
+onMounted(async () => {
+  applyRouteCategory()
+  try {
+    const res = await fetch('/data/products.json')
+    const data: Product[] = await res.json()
+    products.value = data
+    data.forEach(p => (qty[p.id] = 1))
+  } catch (e) {
+    console.error('Error cargando productos.json', e)
+  }
+})
 watch(() => route.query.cat, applyRouteCategory)
 const qty = reactive<Record<string, number>>({})
-products.value.forEach(p => (qty[p.id] = 1))
 
 const filteredProducts = computed(() => {
   if (selectedCategory.value === 'all') return products.value
@@ -134,22 +135,34 @@ function formatPrice(value: number) {
   return new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'USD' }).format(value)
 }
 
-function incQty(id: number) {
+function incQty(id: string) {
   qty[id] = Math.min((qty[id] || 1) + 1, 99)
 }
 
-function decQty(id: number) {
+function decQty(id: string) {
   qty[id] = Math.max((qty[id] || 1) - 1, 1)
 }
 
-function onQtyInput(id: number) {
-  if (Number.isNaN(qty[id] as number)) qty[id] = 1
-  qty[id] = Math.min(1)
+function onQtyInput(id: string) {
+  const n = Number(qty[id])
+  if (Number.isNaN(n)) {
+    qty[id] = 1
+    return
+  }
+  qty[id] = Math.max(1, Math.min(n, 99))
 }
 
 function addToCart(product: Product) {
-
-  console.log('entramos a addToCart', product, qty[product.id])
+  const cart = useCartStore()
+  const q = Math.max(1, qty[product.id] || 1)
+  const mapped: StoreProduct = {
+    id: product.id,
+    name: product.name,
+    price: product.price,
+    image: product.image,
+    categoryId: product.category,
+  }
+  cart.add(mapped, q)
 }
 
 const thumbStyle = {

@@ -8,12 +8,17 @@
           <span>Mercado Variado Texas</span>
         </q-toolbar-title>
         <!-- Desktop navigation (hidden on small screens) -->
-        <div class="row items-center gt-sm">
+        <div class="row items-center gt-sm q-gutter-sm">
           <q-btn flat dense label="" to="/" icon="home" class="gt-xs" />
           <q-btn flat dense label="Tienda" to="/tienda" icon="store" class="gt-xs" />
           <q-btn flat dense label="Quiénes somos" to="/about" icon="info" class="gt-xs" />
           <q-btn flat dense label="Contacto" to="/contact" icon="contact_support" class="gt-xs"  />
         </div>
+        <q-space />
+        <!-- Cart button -->
+        <q-btn flat round dense icon="shopping_cart" @click="showCart = true">
+          <q-badge color="red" text-color="white" floating v-if="cart.count">{{ cart.count }}</q-badge>
+        </q-btn>
       </q-toolbar>
     </q-header>
 
@@ -48,13 +53,20 @@
     <q-page-container>
       <router-view />
     </q-page-container>
+
+    <!-- Cart modal -->
+    <cart-modal v-model="showCart" />
   </q-layout>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue';
+import { useCartStore } from 'src/stores/cart';
+import CartModal from 'src/components/CartModal.vue';
 
 const leftDrawerOpen = ref(false);
+const showCart = ref(false);
+const cart = useCartStore();
 </script>
 <style lang="scss" scoped>
 
