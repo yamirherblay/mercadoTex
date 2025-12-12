@@ -2,7 +2,7 @@
   <q-dialog v-model="modelValue">
     <q-card style="min-width: 340px; max-width: 640px; width: 100%">
       <q-card-section class="row items-center q-pb-none">
-        <div class="text-h6">Carrito</div>
+        <div class="text-h6">Tus productos solicitados en cesta:</div>
         <q-space />
         <q-btn icon="close" flat round dense v-close-popup />
       </q-card-section>
@@ -35,8 +35,8 @@
       <q-card-section class="row items-center justify-between q-gutter-sm">
         <div class="text-subtitle1">Total: {{ currency(cart.total) }}</div>
         <div class="row q-gutter-sm">
-          <q-btn color="positive" icon="whatsapp" :disable="!cart.items.length" @click="buyWhatsApp">Comprar por WhatsApp</q-btn>
-          <q-btn color="primary" :to="{ name: 'checkout' }" :disable="!cart.items.length" v-close-popup>Finalizar compra</q-btn>
+          <q-btn color="positive" icon="whatsapp" :disable="!cart.items.length" @click="buyWhatsApp">Solicitar por WhatsApp</q-btn>
+<!--          <q-btn color="primary" :to="{ name: 'checkout' }" :disable="!cart.items.length" v-close-popup>Finalizar compra</q-btn>-->
         </div>
       </q-card-section>
     </q-card>

@@ -19,8 +19,6 @@
               v-for="cat in categories"
               :key="cat.key"
               flat
-              clickable
-              :to="{ path: '/tienda', query: { cat: cat.key } }"
               class="category-card cursor-pointer">
               <q-card-section class="column items-center text-center ">
                 <q-img
@@ -28,7 +26,17 @@
                   class="category-img"
                   :ratio="1"
                 />
-                <div class="text-subtitle2 q-mt-sm">{{ cat.label }}</div>
+                <div class="text-subtitle2 q-mt-sm">
+                  <q-btn
+                    color="primary"
+                    class="q-mb-xs"
+                    size="sm"
+                    :label="cat.label"
+                    unelevated
+                    rounded
+                    @click="$router.push(`/tienda?cat=${cat.key}`)"
+                    />
+                </div>
               </q-card-section>
             </q-card>
 
